@@ -6,7 +6,7 @@
 /*   By: tnam <tnam@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/18 17:30:14 by tnam              #+#    #+#             */
-/*   Updated: 2023/04/26 18:04:32 by tnam             ###   ########.fr       */
+/*   Updated: 2023/04/26 18:49:12 by tnam             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,8 @@ int	main(int argc, char *argv[], char *envp[])
 		parse.line = readline("whine 🍷 ");
 		if (parse.line == NULL)
 		{
+			ft_putstr_fd("\x1b[1A", STDOUT_FILENO);
+			ft_putstr_fd("\033[9C", STDOUT_FILENO);
 			printf("exit\n");
 			return (EXIT_SUCCESS);
 		}
