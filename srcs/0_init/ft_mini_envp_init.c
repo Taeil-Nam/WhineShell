@@ -3,23 +3,24 @@
 /*                                                        :::      ::::::::   */
 /*   ft_mini_envp_init.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jeekpark <jeekpark@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tnam <tnam@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/18 21:15:44 by jeekpark          #+#    #+#             */
-/*   Updated: 2023/04/18 21:35:38 by jeekpark         ###   ########.fr       */
+/*   Updated: 2023/04/26 15:00:09 by tnam             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	ft_mini_envp_init(char **envp, t_list *mini_envp)
+void	ft_mini_envp_init(char **envp, t_info *info)
 {
 	size_t	i;
 
 	i = 0;
+	info->mini_envp = ft_list_init();
 	while (envp[i])
 	{
-		ft_list_push_back(ft_strdup(envp[i]), mini_envp);
+		ft_list_push_back(ft_strdup(envp[i]), &(info->mini_envp));
 		i++;
 	}
 }

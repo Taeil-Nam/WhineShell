@@ -5,7 +5,7 @@ SRCS = ft_bzero.c ft_atoi.c ft_calloc.c ft_isalnum.c ft_isalpha.c ft_isascii.c f
 SRCS_B = 
 PRINTF_SRCS = ft_printf.c ft_print_x.c ft_print_u.c ft_print_s.c ft_print_p.c ft_print_di.c ft_print_c.c
 GNL_SRCS = get_next_line_utils_bonus.c get_next_line_bonus.c
-HEADER = -I .
+HEADER = -I ../../includes
 OBJS = $(SRCS:.c=.o)
 OBJS_B = $(SRCS_B:.c=.o)
 OBJS_PRINTF = $(PRINTF_SRCS:.c=.o)

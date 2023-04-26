@@ -1,29 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_sig_init.c                                      :+:      :+:    :+:   */
+/*   ft_parse.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tnam <tnam@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/04/26 16:23:33 by tnam              #+#    #+#             */
-/*   Updated: 2023/04/26 17:44:20 by tnam             ###   ########.fr       */
+/*   Created: 2023/04/26 15:25:50 by tnam              #+#    #+#             */
+/*   Updated: 2023/04/26 17:57:12 by tnam             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	ft_signal_2(int sig)
+int	ft_parse(t_minishell *mini, t_info *info, t_parse *parse)
 {
-	(void)sig;
-	printf("\n");
-	if (rl_on_new_line() == -1)
-		exit(1);
-	rl_replace_line("", 1);
-	rl_redisplay();
-}
-
-void	ft_sig_init(void)
-{
-	signal(SIGINT, ft_signal_2);
-	signal(SIGQUIT, SIG_IGN);
+	mini->parse->line_i = 0;
+	mini->parse->token_count = 0;
+	while (ft_is_space(parse->line[parse->line_i]))
+		parse->line_i++;
+	if (ft_count_token(parse) == FAILURE)
+		return (FAILURE);
+	mini = 0; // dummy
+	info = 0; // dummy
+	return (SUCCESS);
 }

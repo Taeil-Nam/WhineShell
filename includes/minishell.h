@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jeekpark <jeekpark@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tnam <tnam@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/18 17:30:42 by tnam              #+#    #+#             */
-/*   Updated: 2023/04/18 21:35:35 by jeekpark         ###   ########.fr       */
+/*   Updated: 2023/04/26 17:34:02 by tnam             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@
 # define SUCCESS 0
 # define FAILURE -1
 
-typedef	struct s_node
+typedef struct s_node
 {
 	void			*content;
 	struct s_node	*next_node;
@@ -56,19 +56,25 @@ typedef struct s_info
 
 typedef struct s_parse
 {
-	char *argv;
+	char	*line;
+	size_t	line_i;
+	size_t	token_count;
 }	t_parse;
-
 
 typedef struct s_minishell
 {
-	t_info *info;
-	t_parse *parse;
+	t_info	*info;
+	t_parse	*parse;
 }	t_minishell;
 
 /* 0_init */
-void	ft_mini_envp_init(char **envp, t_list *mini_envp);
+void	ft_init(int argc, char **argv, char **envp, t_minishell *mini);
+void	ft_sig_init(void);
+void	ft_mini_envp_init(char **envp, t_info *info);
 
+/* 1_parse */
+int		ft_parse(t_minishell *mini, t_info *info, t_parse *parse);
+int		ft_count_token(t_parse *parse);
 
 /* ft_list */
 t_list	ft_list_init(void);
@@ -78,5 +84,9 @@ void	ft_list_clear(t_list *list);
 
 /* utils */
 int		ft_error(char *msg, int error_code);
+int		ft_is_space(char c);
+int		ft_is_operator(char c);
+int		ft_is_redirect(char c);
+int		ft_is_quote(char c);
 
 #endif
