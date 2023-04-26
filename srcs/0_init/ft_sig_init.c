@@ -6,7 +6,7 @@
 /*   By: tnam <tnam@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/26 16:23:33 by tnam              #+#    #+#             */
-/*   Updated: 2023/04/26 17:44:20 by tnam             ###   ########.fr       */
+/*   Updated: 2023/04/26 18:39:32 by tnam             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,11 @@ void	ft_signal_2(int sig)
 
 void	ft_sig_init(void)
 {
+	struct termios	termios;
+
+	tcgetattr(STDIN_FILENO, &termios);
+	termios.c_lflag = ~ECHOCTL;
+	tcsetattr(STDIN_FILENO, TCSANOW, &termios);
 	signal(SIGINT, ft_signal_2);
 	signal(SIGQUIT, SIG_IGN);
 }
