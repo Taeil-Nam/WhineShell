@@ -1,60 +1,38 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_count_token.c                                   :+:      :+:    :+:   */
+/*   ft_tokenization.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tnam <tnam@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/26 15:28:40 by tnam              #+#    #+#             */
-/*   Updated: 2023/04/28 20:25:02 by tnam             ###   ########.fr       */
+/*   Updated: 2023/04/28 17:11:10 by tnam             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static int	ft_pipe_process(t_parse *parse)
-{
-	if (parse->line[parse->line_i + 1] == '|')
-		return (ft_error("Not support '||' symbol in minishell.",
-				FAILURE));
-	else
-		parse->token_count++;
-	return (SUCCESS);
-}
-
-static int	ft_redirect_process(t_parse *parse)
-{
-	char	redirect_c;
-	int		repeat_count;
-
-	repeat_count = 1;
-	redirect_c = parse->line[parse->line_i];
-	while (parse->line[parse->line_i + 1] == redirect_c)
-	{
-		repeat_count++;
-		if (repeat_count == 3)
-			return (ft_error("Used more than 3 redirection character. \
-					(Ex: '<<<...')", FAILURE));
-		parse->line_i++;
-	}
-	parse->token_count++;
-	return (SUCCESS);
-}
-
 static int	ft_operator_process(t_parse *parse)
 {
+	char	redirect_c;
+
 	if (parse->line[parse->line_i] == '|')
 	{
-		if (ft_pipe_process(parse) == FAILURE)
+		if (ft_make_token(parse, PIPE) == FAILURE)
 			return (FAILURE);
 	}
 	else if (ft_is_redirect(parse->line[parse->line_i]) == TRUE)
-		if (ft_redirect_process(parse) == FAILURE)
+	{
+		redirect_c = parse->line[parse->line_i];
+		if (parse->line[parse->line_i + 1] == redirect_c)
+			parse->line_i++;
+		if (ft_make_token(parse, REDIRECT) == FAILURE)
 			return (FAILURE);
+	}
 	return (SUCCESS);
 }
 
-static int	ft_quote_process(t_parse *parse)
+static void	ft_quote_process(t_parse *parse)
 {
 	char	end_quote;
 
@@ -63,15 +41,28 @@ static int	ft_quote_process(t_parse *parse)
 	while (parse->line[parse->line_i]
 		&& parse->line[parse->line_i] != end_quote)
 		parse->line_i++;
-	if (parse->line[parse->line_i] == '\0')
+}
+
+static int	ft_character_process(t_parse *parse)
+{
+	while (TRUE)
 	{
-		printf("Error\nQuote %c is not closed.\n", end_quote);
-		return (FAILURE);
+		if (ft_is_quote(parse->line[parse->line_i]) == TRUE)
+			ft_quote_process(parse);
+		if (parse->line[parse->line_i + 1] == '\0'
+			|| ft_is_space(parse->line[parse->line_i + 1]) == TRUE
+			|| ft_is_operator(parse->line[parse->line_i + 1]) == TRUE)
+		{
+			if (ft_make_token(parse, WORD) == FAILURE)
+				return (FAILURE);
+			return (SUCCESS);
+		}
+		parse->line_i++;
 	}
 	return (SUCCESS);
 }
 
-int	ft_count_token(t_parse *parse)
+int	ft_tokenization(t_parse *parse)
 {
 	while (parse->line[parse->line_i])
 	{
@@ -84,15 +75,11 @@ int	ft_count_token(t_parse *parse)
 		}
 		else
 		{
-			if (ft_is_quote(parse->line[parse->line_i]) == TRUE)
-				if (ft_quote_process(parse) == FAILURE)
-					return (FAILURE);
-			if (parse->line[parse->line_i + 1] == '\0'
-				|| ft_is_space(parse->line[parse->line_i + 1]) == TRUE
-				|| ft_is_operator(parse->line[parse->line_i + 1]) == TRUE)
-				parse->token_count++;
+			if (ft_character_process(parse) == FAILURE)
+				return (FAILURE);
 		}
 		parse->line_i++;
+		parse->start_i = parse->line_i;
 	}
 	return (SUCCESS);
 }
