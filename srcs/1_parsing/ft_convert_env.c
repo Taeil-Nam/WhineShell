@@ -6,18 +6,26 @@
 /*   By: tnam <tnam@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/28 14:45:53 by tnam              #+#    #+#             */
-/*   Updated: 2023/04/28 20:38:28 by tnam             ###   ########.fr       */
+/*   Updated: 2023/05/02 14:42:28 by tnam             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static void	ft_set_squote_flag(t_parse *parse)
+static void	ft_set_quote_flag(t_parse *parse)
 {
+	if (parse->token->str[parse->str_i] == '"'
+		&& parse->dquote_flag == FALSE)
+		parse->dquote_flag = TRUE;
+	else if (parse->token->str[parse->str_i] == '"'
+		&& parse->dquote_flag == TRUE)
+		parse->dquote_flag = FALSE;
 	if (parse->token->str[parse->str_i] == '\''
+		&& parse->dquote_flag == FALSE
 		&& parse->squote_flag == FALSE)
 		parse->squote_flag = TRUE;
 	else if (parse->token->str[parse->str_i] == '\''
+		&& parse->dquote_flag == FALSE
 		&& parse->squote_flag == TRUE)
 		parse->squote_flag = FALSE;
 }
@@ -77,7 +85,7 @@ static int	ft_add_env(t_parse *parse)
 
 static int	ft_find_env(t_info *info, t_parse *parse)
 {
-	ft_set_squote_flag(parse);
+	ft_set_quote_flag(parse);
 	if (parse->squote_flag == FALSE
 		&& parse->token->str[parse->str_i] == '$'
 		&& (ft_isalpha(parse->token->str[parse->str_i + 1])
