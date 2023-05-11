@@ -6,7 +6,7 @@
 #    By: tnam <tnam@student.42seoul.kr>             +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/04/18 17:24:05 by tnam              #+#    #+#              #
-#    Updated: 2023/05/02 14:43:05 by tnam             ###   ########.fr        #
+#    Updated: 2023/05/08 12:55:36 by tnam             ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -29,6 +29,7 @@ SRCS			=	srcs/main.c							\
 					srcs/utils/ft_is_redirect.c			\
 					srcs/utils/ft_is_quote.c			\
 					srcs/utils/ft_is_env.c				\
+					srcs/utils/ft_is_heredoc.c			\
 					srcs/utils/ft_free_tokens.c			\
 					srcs/ft_list/ft_list_del_node.c		\
 					srcs/ft_list/ft_list_init.c			\

@@ -6,7 +6,7 @@
 /*   By: tnam <tnam@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/18 17:30:42 by tnam              #+#    #+#             */
-/*   Updated: 2023/05/02 14:41:40 by tnam             ###   ########.fr       */
+/*   Updated: 2023/05/08 12:53:35 by tnam             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,6 +120,7 @@ int		ft_is_operator(char c);
 int		ft_is_redirect(char c);
 int		ft_is_quote(char c);
 int		ft_is_env(t_info *info, t_parse *parse);
+int		ft_is_heredoc(char c1, char c2);
 void	ft_free_tokens(t_parse *parse);
 
 #endif

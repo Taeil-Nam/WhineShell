@@ -6,7 +6,7 @@
 /*   By: tnam <tnam@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/28 14:45:53 by tnam              #+#    #+#             */
-/*   Updated: 2023/05/02 14:42:28 by tnam             ###   ########.fr       */
+/*   Updated: 2023/05/08 12:58:28 by tnam             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,6 +115,12 @@ int	ft_convert_env(t_info *info, t_parse *parse)
 		parse->str_i = 0;
 		while (parse->token->str[parse->str_i])
 		{
+			if (ft_is_heredoc(parse->token->str[parse->str_i],
+					parse->token->str[parse->str_i + 1]) == TRUE)
+			{
+				parse->tokens_i++;
+				break ;
+			}
 			if (ft_find_env(info, parse) == FAILURE)
 				return (FAILURE);
 			parse->str_i++;
