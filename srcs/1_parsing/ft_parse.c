@@ -6,7 +6,7 @@
 /*   By: tnam <tnam@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/26 15:25:50 by tnam              #+#    #+#             */
-/*   Updated: 2023/05/02 14:43:21 by tnam             ###   ########.fr       */
+/*   Updated: 2023/05/18 11:43:13 by tnam             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ static int	ft_ready_tokenization(t_parse *parse)
 	return (SUCCESS);
 }
 
-int	ft_parse(t_minishell *mini, t_info *info, t_parse *parse)
+int	ft_parse(t_info *info, t_parse *parse)
 {
 	ft_parse_init(parse);
 	if (ft_count_token(parse) == FAILURE)
@@ -43,15 +43,20 @@ int	ft_parse(t_minishell *mini, t_info *info, t_parse *parse)
 		return (FAILURE);
 	if (ft_tokenization(parse) == FAILURE)
 	{
-		ft_free_tokens(parse);
+		ft_free_tokens(parse, parse->tokens_i);
 		return (FAILURE);
 	}
 	if (ft_convert_env(info, parse) == FAILURE)
 	{
-		ft_free_tokens(parse);
+		ft_free_tokens(parse, parse->token_count);
 		return (FAILURE);
 	}
 	ft_remove_quote(parse);
-	(void)mini; // dummy
+	if (ft_syntax_check(parse) == FAILURE)
+	{
+		parse->tokens_i = parse->token_count;
+		ft_free_tokens(parse, parse->token_count);
+		return (FAILURE);
+	}
 	return (SUCCESS);
 }

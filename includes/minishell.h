@@ -6,7 +6,7 @@
 /*   By: tnam <tnam@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/18 17:30:42 by tnam              #+#    #+#             */
-/*   Updated: 2023/05/08 12:53:35 by tnam             ###   ########.fr       */
+/*   Updated: 2023/05/18 11:42:23 by tnam             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,13 +33,7 @@
 # define SUCCESS 0
 # define FAILURE -1
 
-typedef enum e_token_type
-{
-	WORD,
-	PIPE,
-	REDIRECT,
-}	t_token_type;
-
+/* List */
 typedef struct s_node
 {
 	void			*content;
@@ -54,12 +48,21 @@ typedef struct s_list
 	t_node			*cur_node;
 }	t_list;
 
+/* Token */
+typedef enum e_token_type
+{
+	WORD,
+	PIPE,
+	REDIRECT,
+}	t_token_type;
+
 typedef struct s_token
 {
 	t_token_type	type;
 	char			*str;
 }	t_token;
 
+/* Program */
 typedef struct s_info
 {
 	int				argc;
@@ -100,12 +103,13 @@ void	ft_sig_init(void);
 void	ft_mini_envp_init(char **envp, t_info *info);
 
 /* 1_parse */
-int		ft_parse(t_minishell *mini, t_info *info, t_parse *parse);
+int		ft_parse(t_info *info, t_parse *parse);
 int		ft_count_token(t_parse *parse);
 int		ft_tokenization(t_parse *parse);
 int		ft_make_token(t_parse *parse, t_token_type type);
 int		ft_convert_env(t_info *info, t_parse *parse);
 void	ft_remove_quote(t_parse *parse);
+int		ft_syntax_check(t_parse *parse);
 
 /* ft_list */
 t_list	ft_list_init(void);
@@ -121,6 +125,6 @@ int		ft_is_redirect(char c);
 int		ft_is_quote(char c);
 int		ft_is_env(t_info *info, t_parse *parse);
 int		ft_is_heredoc(char c1, char c2);
-void	ft_free_tokens(t_parse *parse);
+void	ft_free_tokens(t_parse *parse, size_t token_size);
 
 #endif

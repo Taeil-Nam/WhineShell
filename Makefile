@@ -6,7 +6,7 @@
 #    By: tnam <tnam@student.42seoul.kr>             +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/04/18 17:24:05 by tnam              #+#    #+#              #
-#    Updated: 2023/05/08 12:55:36 by tnam             ###   ########.fr        #
+#    Updated: 2023/05/18 11:32:05 by tnam             ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -44,6 +44,7 @@ SRCS			=	srcs/main.c							\
 					srcs/1_parsing/ft_make_token.c		\
 					srcs/1_parsing/ft_convert_env.c		\
 					srcs/1_parsing/ft_remove_quote.c	\
+					srcs/1_parsing/ft_syntax_check.c	\
 					
 					
 OBJS			=	$(SRCS:.c=.o)

@@ -6,7 +6,7 @@
 /*   By: tnam <tnam@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/18 17:30:14 by tnam              #+#    #+#             */
-/*   Updated: 2023/04/28 19:21:34 by tnam             ###   ########.fr       */
+/*   Updated: 2023/05/18 11:43:17 by tnam             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,12 +35,13 @@ void	print_tokens(t_parse *parse)
 
 static void	ft_parse_execute(t_minishell *mini, t_info *info, t_parse *parse)
 {
-	if (ft_parse(mini, info, parse) == FAILURE)
+	(void)mini; // dummy
+	if (ft_parse(info, parse) == FAILURE)
 		return ;
-	/* if (ft_execute(mini, info, parse) == FAILURE)
+	/* if (ft_execute(info, parse) == FAILURE)
 		return ; */
 	print_tokens(parse); // test
-	ft_free_tokens(parse);
+	ft_free_tokens(parse, parse->token_count);
 }
 
 void leaks() // memory leak test
