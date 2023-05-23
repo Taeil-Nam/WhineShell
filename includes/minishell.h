@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jeekpark <jeekpark@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tnam <tnam@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/18 17:30:42 by tnam              #+#    #+#             */
-/*   Updated: 2023/05/23 17:32:50 by jeekpark         ###   ########.fr       */
+/*   Updated: 2023/05/23 19:47:21 by tnam             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,9 @@
 # define IN 0
 # define OUT 1
 # define NONE -1
+
+/* Global Variable */
+extern int	g_child_exit_code;
 
 /* List */
 typedef struct s_node
@@ -95,6 +98,7 @@ typedef struct s_parse
 	size_t			env_val_len;
 	char			*old_str;
 	char			*new_str;
+	char			*exit_code;
 }	t_parse;
 
 typedef enum e_redirect_type
@@ -130,7 +134,6 @@ typedef struct s_exec
 	t_exec_info	*exec_arr;
 	size_t		exec_arr_size;
 	size_t		exec_arr_i;
-	int			child_exit_code;
 	int			prev_pipe_fd;
 	char		**path_envp;
 }	t_exec;
@@ -146,6 +149,7 @@ int		ft_count_token(t_parse *parse);
 int		ft_tokenization(t_parse *parse);
 int		ft_make_token(t_parse *parse, t_token_type type);
 int		ft_convert_env(t_info *info, t_parse *parse);
+int		ft_convert_child_exit_code(t_parse *parse);
 void	ft_remove_quote(t_parse *parse);
 int		ft_syntax_check(t_parse *parse);
 
@@ -157,9 +161,20 @@ int		ft_set_exec_info(t_parse *parse, t_exec_info *exec_info);
 int		ft_exec(t_info *info, t_parse *parse, t_exec *exec);
 void	ft_exec_cmd(t_info *info, t_parse *parse,
 			t_exec *exec, t_exec_info *exec_info);
+void	ft_exec_builtin(t_info *info, t_parse *parse,
+			t_exec *exec, t_exec_info *exec_info);
 void	ft_redirect(t_exec_info *exec_info);
 void	ft_redirect_here_doc(t_exec_info *exec_info, t_redirect *redirect);
 void	ft_pipe(t_exec *exec, t_exec_info *exec_info);
+
+/* 4_builtin */
+int		ft_echo_builtin(void);
+int		ft_cd_builtin(void);
+int		ft_env_builtin(t_info *info);
+int		ft_exit_builtin(t_list *mini_envp, t_parse *parse, t_exec *exec);
+int		ft_export_builtin(t_info *info, t_exec_info *exec_info);
+int		ft_pwd_builtin(void);
+int		ft_unset_builtin(t_info *info, t_exec_info *exec_info);
 
 /* ft_list */
 t_list	ft_list_init(void);
@@ -177,6 +192,8 @@ int		ft_is_redirect(char c);
 int		ft_is_quote(char c);
 int		ft_is_env(t_info *info, t_parse *parse);
 int		ft_is_heredoc(char c1, char c2);
+int		ft_is_child_exit_code(t_parse *parse);
+int		ft_is_builtin(t_exec_info *exec_info);
 void	ft_free_tokens(t_parse *parse, size_t token_size);
 void	ft_free_exec(t_exec *exec, size_t exec_info_size);
 void	ft_free_all(t_parse *parse, t_exec *exec);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_unset_builtin.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jeekpark <jeekpark@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tnam <tnam@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/23 16:45:43 by jeekpark          #+#    #+#             */
-/*   Updated: 2023/05/23 17:32:48 by jeekpark         ###   ########.fr       */
+/*   Updated: 2023/05/23 18:50:25 by tnam             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,8 @@ static void	ft_unset_builtin_del_node(t_info *info, t_exec_info *exec_info)
 	i = 1;
 	while (exec_info->cmd[i])
 	{
-		to_delete = ft_unset_builtin_find_node(exec_info->cmd[i], &(info->mini_envp));
+		to_delete
+			= ft_unset_builtin_find_node(exec_info->cmd[i], &(info->mini_envp));
 		if (to_delete)
 			ft_list_del_node(&(info->mini_envp), to_delete);
 		i++;
@@ -53,8 +54,8 @@ static void	ft_unset_builtin_del_node(t_info *info, t_exec_info *exec_info)
 int	ft_unset_builtin(t_info *info, t_exec_info *exec_info)
 {
 	if (exec_info->cmd[1] == NULL)
-		return (SUCCESS);
+		exit (EXIT_SUCCESS);
 	else
 		ft_unset_builtin_del_node(info, exec_info);
-	return (SUCCESS);
+	exit (EXIT_SUCCESS);
 }

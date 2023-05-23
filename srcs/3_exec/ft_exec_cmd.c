@@ -6,7 +6,7 @@
 /*   By: tnam <tnam@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/22 20:18:43 by tnam              #+#    #+#             */
-/*   Updated: 2023/05/23 14:55:28 by tnam             ###   ########.fr       */
+/*   Updated: 2023/05/23 18:54:16 by tnam             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,8 @@ static int	ft_find_cmd(t_exec *exec, t_exec_info *exec_info)
 void	ft_exec_cmd(t_info *info, t_parse *parse,
 	t_exec *exec, t_exec_info *exec_info)
 {
-	if (ft_find_cmd(exec, exec_info) == FAILURE)
+	if (ft_is_builtin(exec_info) == FALSE
+		&& ft_find_cmd(exec, exec_info) == FAILURE)
 	{
 		printf("%s: command not found:\n", exec_info->cmd[0]);
 		ft_free_all(parse, exec);
@@ -68,6 +69,9 @@ void	ft_exec_cmd(t_info *info, t_parse *parse,
 		ft_redirect(exec_info);
 		if (exec_info->cmd_path == NULL)
 			exit (EXIT_SUCCESS);
-		execve(exec_info->cmd_path, exec_info->cmd, info->envp);
+		if (ft_is_builtin(exec_info) == TRUE)
+			ft_exec_builtin(info, parse, exec, exec_info);
+		else
+			execve(exec_info->cmd_path, exec_info->cmd, info->envp);
 	}
 }

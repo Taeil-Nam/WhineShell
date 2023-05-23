@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_export_builtin.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jeekpark <jeekpark@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tnam <tnam@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/23 16:00:35 by jeekpark          #+#    #+#             */
-/*   Updated: 2023/05/23 17:32:51 by jeekpark         ###   ########.fr       */
+/*   Updated: 2023/05/23 18:49:26 by tnam             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,15 +26,14 @@ static void	ft_export_builtin_arg(t_info *info, t_exec_info *exec_info)
 
 static void	ft_export_builtin_no_arg(t_list *list)
 {
-	t_node *cur;
+	t_node	*cur;
 
-    cur = list->front_node;
-    while (cur)
-    {
-        printf("declare -x %s\n", (char *)(cur->content));
-        cur = cur->next_node;
-    }
-    return (SUCCESS);
+	cur = list->front_node;
+	while (cur)
+	{
+		printf("declare -x %s\n", (char *)(cur->content));
+		cur = cur->next_node;
+	}
 }
 
 int	ft_export_builtin(t_info *info, t_exec_info *exec_info)
@@ -43,5 +42,5 @@ int	ft_export_builtin(t_info *info, t_exec_info *exec_info)
 		ft_export_builtin_no_arg(&(info->mini_envp));
 	else
 		ft_export_builtin_arg(info, exec_info);
-	return (SUCCESS);
+	exit (EXIT_SUCCESS);
 }

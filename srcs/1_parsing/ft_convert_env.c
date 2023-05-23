@@ -6,7 +6,7 @@
 /*   By: tnam <tnam@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/28 14:45:53 by tnam              #+#    #+#             */
-/*   Updated: 2023/05/08 12:58:28 by tnam             ###   ########.fr       */
+/*   Updated: 2023/05/23 18:07:25 by tnam             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,9 +90,15 @@ static int	ft_find_env(t_info *info, t_parse *parse)
 		&& parse->token->str[parse->str_i] == '$'
 		&& (ft_isalpha(parse->token->str[parse->str_i + 1])
 			|| parse->token->str[parse->str_i + 1] == '_'
-			|| parse->token->str[parse->str_i + 1] == '-'))
+			|| parse->token->str[parse->str_i + 1] == '-'
+			|| parse->token->str[parse->str_i + 1] == '?'))
 	{
-		if (ft_check_env(info, parse) == TRUE)
+		if (ft_is_child_exit_code(parse) == TRUE)
+		{
+			if (ft_convert_child_exit_code(parse) == FAILURE)
+				return (FAILURE);
+		}
+		else if (ft_check_env(info, parse) == TRUE)
 		{
 			if (ft_add_env(parse) == FAILURE)
 				return (FAILURE);
