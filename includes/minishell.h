@@ -6,7 +6,7 @@
 /*   By: tnam <tnam@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/18 17:30:42 by tnam              #+#    #+#             */
-/*   Updated: 2023/05/22 14:01:31 by tnam             ###   ########.fr       */
+/*   Updated: 2023/05/23 14:42:19 by tnam             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,11 +27,16 @@
 # include <termios.h>
 # include <errno.h>
 # include "libft.h"
+# include "get_next_line.h"
 
 # define TRUE 1
 # define FALSE 0
 # define SUCCESS 0
 # define FAILURE -1
+# define CHILD 0
+# define IN 0
+# define OUT 1
+# define NONE -1
 
 /* List */
 typedef struct s_node
@@ -67,6 +72,7 @@ typedef struct s_info
 {
 	int				argc;
 	char			**argv;
+	char			**envp;
 	t_list			mini_envp;
 }	t_info;
 
@@ -112,13 +118,21 @@ typedef struct s_exec_info
 	size_t			cmd_i;
 	t_redirect		*redirect;
 	size_t			redirect_i;
+	pid_t			pid;
 	int				use_pipe;
+	int				pipe_fd[2];
+	int				infile_fd;
+	int				outfile_fd;
 }	t_exec_info;
 
 typedef struct s_exec
 {
 	t_exec_info	*exec_arr;
 	size_t		exec_arr_size;
+	size_t		exec_arr_i;
+	int			child_exit_code;
+	int			prev_pipe_fd;
+	char		**path_envp;
 }	t_exec;
 
 /* 0_init */
@@ -136,8 +150,16 @@ void	ft_remove_quote(t_parse *parse);
 int		ft_syntax_check(t_parse *parse);
 
 /* 2_make_exec_info */
-int		ft_make_exec_info(t_parse *parse, t_exec *exec);
+int		ft_make_exec_info(t_info *info, t_parse *parse, t_exec *exec);
 int		ft_set_exec_info(t_parse *parse, t_exec_info *exec_info);
+
+/* 3_exec */
+int		ft_exec(t_info *info, t_parse *parse, t_exec *exec);
+void	ft_exec_cmd(t_info *info, t_parse *parse,
+			t_exec *exec, t_exec_info *exec_info);
+void	ft_redirect(t_exec_info *exec_info);
+void	ft_redirect_here_doc(t_exec_info *exec_info, t_redirect *redirect);
+void	ft_pipe(t_exec *exec, t_exec_info *exec_info);
 
 /* ft_list */
 t_list	ft_list_init(void);
@@ -147,6 +169,8 @@ void	ft_list_clear(t_list *list);
 
 /* utils */
 int		ft_error(char *msg, int error_code);
+int		ft_perror(int error_code);
+void	ft_cmd_not_found_error(t_exec_info *exec_info);
 int		ft_is_space(char c);
 int		ft_is_operator(char c);
 int		ft_is_redirect(char c);
@@ -154,6 +178,7 @@ int		ft_is_quote(char c);
 int		ft_is_env(t_info *info, t_parse *parse);
 int		ft_is_heredoc(char c1, char c2);
 void	ft_free_tokens(t_parse *parse, size_t token_size);
-void	ft_free_exec(t_exec_info *exec_arr, size_t exec_info_size);
+void	ft_free_exec(t_exec *exec, size_t exec_info_size);
+void	ft_free_all(t_parse *parse, t_exec *exec);
 
 #endif

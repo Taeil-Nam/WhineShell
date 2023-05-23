@@ -6,7 +6,7 @@
 /*   By: tnam <tnam@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/18 17:30:14 by tnam              #+#    #+#             */
-/*   Updated: 2023/05/22 14:32:41 by tnam             ###   ########.fr       */
+/*   Updated: 2023/05/23 15:03:48 by tnam             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,12 +61,13 @@ static void	ft_parse_execute(t_info *info, t_parse *parse, t_exec *exec)
 {
 	if (ft_parse(info, parse) == FAILURE)
 		return ;
-	if (ft_make_exec_info(parse, exec) == FAILURE)
+	if (ft_make_exec_info(info, parse, exec) == FAILURE)
+		return ;
+	if (ft_exec(info, parse, exec) == FAILURE)
 		return ;
 	//print_tokens(parse); // test
-	print_exec(exec); // test
-	ft_free_tokens(parse, parse->token_count);
-	ft_free_exec(exec->exec_arr, exec->exec_arr_size);
+	//print_exec(exec); // test
+	ft_free_all(parse, exec);
 }
 
 void leaks() // memory leak test
