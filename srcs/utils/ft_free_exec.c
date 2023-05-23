@@ -1,21 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_init.c                                          :+:      :+:    :+:   */
+/*   ft_free_exec_info.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tnam <tnam@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/04/26 15:18:06 by tnam              #+#    #+#             */
-/*   Updated: 2023/05/18 14:22:43 by tnam             ###   ########.fr       */
+/*   Created: 2023/04/27 16:04:50 by tnam              #+#    #+#             */
+/*   Updated: 2023/05/22 13:47:21 by tnam             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	ft_init(int argc, char **argv, char **envp, t_info *info)
+void	ft_free_exec(t_exec_info *exec_arr, size_t exec_arr_i)
 {
-	info->argc = argc;
-	info->argv = argv;
-	ft_sig_init();
-	ft_mini_envp_init(envp, info);
+	size_t	i;
+
+	i = 0;
+	while (i < exec_arr_i)
+	{
+		free(exec_arr[i].cmd);
+		free(exec_arr[i].redirect);
+		i++;
+	}
+	free(exec_arr);
 }

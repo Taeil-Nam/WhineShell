@@ -6,7 +6,7 @@
 /*   By: tnam <tnam@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/18 17:30:42 by tnam              #+#    #+#             */
-/*   Updated: 2023/05/18 11:42:23 by tnam             ###   ########.fr       */
+/*   Updated: 2023/05/22 14:01:31 by tnam             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,14 +91,38 @@ typedef struct s_parse
 	char			*new_str;
 }	t_parse;
 
-typedef struct s_minishell
+typedef enum e_redirect_type
 {
-	t_info	*info;
-	t_parse	*parse;
-}	t_minishell;
+	OUT1,
+	OUT2,
+	IN1,
+	HERE_DOC,
+}	t_redirect_type;
+
+typedef struct s_redirect
+{
+	t_redirect_type		type;
+	char				*value;
+}	t_redirect;
+
+typedef struct s_exec_info
+{
+	char			*cmd_path;
+	char			**cmd;
+	size_t			cmd_i;
+	t_redirect		*redirect;
+	size_t			redirect_i;
+	int				use_pipe;
+}	t_exec_info;
+
+typedef struct s_exec
+{
+	t_exec_info	*exec_arr;
+	size_t		exec_arr_size;
+}	t_exec;
 
 /* 0_init */
-void	ft_init(int argc, char **argv, char **envp, t_minishell *mini);
+void	ft_init(int argc, char **argv, char **envp, t_info *info);
 void	ft_sig_init(void);
 void	ft_mini_envp_init(char **envp, t_info *info);
 
@@ -110,6 +134,10 @@ int		ft_make_token(t_parse *parse, t_token_type type);
 int		ft_convert_env(t_info *info, t_parse *parse);
 void	ft_remove_quote(t_parse *parse);
 int		ft_syntax_check(t_parse *parse);
+
+/* 2_make_exec_info */
+int		ft_make_exec_info(t_parse *parse, t_exec *exec);
+int		ft_set_exec_info(t_parse *parse, t_exec_info *exec_info);
 
 /* ft_list */
 t_list	ft_list_init(void);
@@ -126,5 +154,6 @@ int		ft_is_quote(char c);
 int		ft_is_env(t_info *info, t_parse *parse);
 int		ft_is_heredoc(char c1, char c2);
 void	ft_free_tokens(t_parse *parse, size_t token_size);
+void	ft_free_exec(t_exec_info *exec_arr, size_t exec_info_size);
 
 #endif

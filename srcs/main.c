@@ -6,7 +6,7 @@
 /*   By: tnam <tnam@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/18 17:30:14 by tnam              #+#    #+#             */
-/*   Updated: 2023/05/18 11:43:17 by tnam             ###   ########.fr       */
+/*   Updated: 2023/05/22 14:32:41 by tnam             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,15 +33,40 @@ void	print_tokens(t_parse *parse)
 	printf("=========\n\n");
 }
 
-static void	ft_parse_execute(t_minishell *mini, t_info *info, t_parse *parse)
+/* print test function */
+void	print_exec(t_exec *exec)
 {
-	(void)mini; // dummy
+	printf("\n=========\n");
+	for (size_t i = 0; i < exec->exec_arr_size; i++)
+	{
+		printf("cmd_path = %s\n", exec->exec_arr[i].cmd_path);
+		for (size_t j = 0; exec->exec_arr[i].cmd[j] != NULL; j++)
+		{
+			printf("cmd[%zu] = %s\n", j, exec->exec_arr[i].cmd[j]);
+		}
+		printf("---------\n");
+		for (size_t j = 0; ; j++)
+		{
+			if (exec->exec_arr[i].redirect[j].value == 0)
+				break ;
+			printf("redirect[%zu].type = %u\n", j, exec->exec_arr[i].redirect[j].type);
+			printf("redirect[%zu].value = %s\n", j, exec->exec_arr[i].redirect[j].value);
+		}
+		printf("---------\n");
+	}
+	printf("=========\n\n");
+}
+
+static void	ft_parse_execute(t_info *info, t_parse *parse, t_exec *exec)
+{
 	if (ft_parse(info, parse) == FAILURE)
 		return ;
-	/* if (ft_execute(info, parse) == FAILURE)
-		return ; */
-	print_tokens(parse); // test
+	if (ft_make_exec_info(parse, exec) == FAILURE)
+		return ;
+	//print_tokens(parse); // test
+	print_exec(exec); // test
 	ft_free_tokens(parse, parse->token_count);
+	ft_free_exec(exec->exec_arr, exec->exec_arr_size);
 }
 
 void leaks() // memory leak test
@@ -51,27 +76,28 @@ void leaks() // memory leak test
 
 int	main(int argc, char *argv[], char *envp[])
 {
-	t_minishell	mini;
 	t_info		info;
 	t_parse		parse;
+	t_exec		exec;
 
 	atexit(leaks); // memory leaks test
-	mini.info = &info;
-	mini.parse = &parse;
-	ft_init(argc, argv, envp, &mini);
+	ft_init(argc, argv, envp, &info);
 	while (TRUE)
 	{
 		parse.line = readline("whine 🍷 ");
 		if (parse.line == NULL)
 		{
 			ft_list_clear(&info.mini_envp);
-			ft_putstr_fd("\x1b[1A", STDOUT_FILENO);
-			ft_putstr_fd("\033[9C", STDOUT_FILENO);
-			printf("exit\n");
+			ft_putstr_fd("\x1b[1A\033[9Cexit\n", STDOUT_FILENO);
 			return (EXIT_SUCCESS);
 		}
+		if (parse.line[0] == '\0')
+		{
+			free(parse.line);
+			continue ;
+		}
 		add_history(parse.line);
-		ft_parse_execute(&mini, &info, &parse);
+		ft_parse_execute(&info, &parse, &exec);
 		free(parse.line);
 	}
 	return (EXIT_SUCCESS);
