@@ -6,7 +6,7 @@
 /*   By: tnam <tnam@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/26 15:28:40 by tnam              #+#    #+#             */
-/*   Updated: 2023/04/28 20:25:02 by tnam             ###   ########.fr       */
+/*   Updated: 2023/05/25 16:27:17 by tnam             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,10 +64,8 @@ static int	ft_quote_process(t_parse *parse)
 		&& parse->line[parse->line_i] != end_quote)
 		parse->line_i++;
 	if (parse->line[parse->line_i] == '\0')
-	{
-		printf("Error\nQuote %c is not closed.\n", end_quote);
-		return (FAILURE);
-	}
+		return (ft_error("Quote %c is not closed.\n", end_quote),
+			FAILURE);
 	return (SUCCESS);
 }
 
