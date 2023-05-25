@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_redirect.c                                      :+:      :+:    :+:   */
+/*   ft_set_redirect_fd.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tnam <tnam@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/23 11:26:44 by tnam              #+#    #+#             */
-/*   Updated: 2023/05/23 14:49:22 by tnam             ###   ########.fr       */
+/*   Updated: 2023/05/24 19:55:32 by tnam             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,40 +14,47 @@
 
 static void	ft_redirect_out1(t_exec_info *exec_info, t_redirect *redirect)
 {
+	if (exec_info->outfile_fd != NONE)
+		if (close(exec_info->outfile_fd) == FAILURE)
+			exit(ft_perror(errno));
 	exec_info->outfile_fd = open(redirect->value, O_WRONLY
 			| O_CREAT | O_TRUNC, 0644);
 	if (exec_info->outfile_fd == FAILURE)
-		exit (ft_perror(errno));
-	if (dup2(exec_info->outfile_fd, STDOUT_FILENO) == FAILURE)
-		exit (ft_perror(errno));
-	if (close(exec_info->outfile_fd) == FAILURE)
-		exit (ft_perror(errno));
+		exit(ft_perror(1));
 }
 
 static void	ft_redirect_out2(t_exec_info *exec_info, t_redirect *redirect)
 {
+	if (exec_info->outfile_fd != NONE)
+		if (close(exec_info->outfile_fd) == FAILURE)
+			exit(ft_perror(errno));
 	exec_info->outfile_fd = open(redirect->value, O_WRONLY
 			| O_CREAT | O_APPEND, 0644);
 	if (exec_info->outfile_fd == FAILURE)
-		exit (ft_perror(errno));
-	if (dup2(exec_info->outfile_fd, STDOUT_FILENO) == FAILURE)
-		exit (ft_perror(errno));
-	if (close(exec_info->outfile_fd) == FAILURE)
-		exit (ft_perror(errno));
+		exit(ft_perror(1));
 }
 
 static void	ft_redirect_in1(t_exec_info *exec_info, t_redirect *redirect)
 {
+	if (exec_info->infile_fd != NONE)
+		if (close(exec_info->infile_fd) == FAILURE)
+			exit(ft_perror(errno));
 	exec_info->infile_fd = open(redirect->value, O_RDONLY);
 	if (exec_info->infile_fd == FAILURE)
-		exit (ft_perror(errno));
-	if (dup2(exec_info->infile_fd, STDIN_FILENO) == FAILURE)
-		exit (ft_perror(errno));
-	if (close(exec_info->infile_fd) == FAILURE)
-		exit (ft_perror(errno));
+		exit(ft_perror(1));
 }
 
-void	ft_redirect(t_exec_info *exec_info)
+static void	ft_redirect_here_doc(t_exec_info *exec_info)
+{
+	if (exec_info->infile_fd != NONE)
+		if (close(exec_info->infile_fd) == FAILURE)
+			exit(ft_perror(errno));
+	exec_info->infile_fd = open("/tmp/whine", O_RDONLY);
+	if (exec_info->infile_fd == FAILURE)
+		exit(ft_perror(1));
+}
+
+void	ft_set_redirect_fd(t_exec_info *exec_info)
 {
 	t_redirect	*redirect;
 
@@ -62,7 +69,7 @@ void	ft_redirect(t_exec_info *exec_info)
 		if (redirect->type == IN1)
 			ft_redirect_in1(exec_info, redirect);
 		if (redirect->type == HERE_DOC)
-			ft_redirect_here_doc(exec_info, redirect);
+			ft_redirect_here_doc(exec_info);
 		exec_info->redirect_i++;
 	}
 }

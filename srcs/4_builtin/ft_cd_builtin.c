@@ -6,7 +6,7 @@
 /*   By: tnam <tnam@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/23 18:39:21 by tnam              #+#    #+#             */
-/*   Updated: 2023/05/23 18:40:39 by tnam             ###   ########.fr       */
+/*   Updated: 2023/05/24 19:55:32 by tnam             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,5 +15,5 @@
 int	ft_cd_builtin(void)
 {
 	printf("cd builtin\n");
-	exit (EXIT_SUCCESS);
+	exit(EXIT_SUCCESS);
 }

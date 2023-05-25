@@ -6,7 +6,7 @@
 /*   By: tnam <tnam@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/18 17:30:42 by tnam              #+#    #+#             */
-/*   Updated: 2023/05/23 19:47:21 by tnam             ###   ########.fr       */
+/*   Updated: 2023/05/24 22:05:06 by tnam             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -136,12 +136,17 @@ typedef struct s_exec
 	size_t		exec_arr_i;
 	int			prev_pipe_fd;
 	char		**path_envp;
+	pid_t		current_child_pid;
 }	t_exec;
 
 /* 0_init */
 void	ft_init(int argc, char **argv, char **envp, t_info *info);
 void	ft_sig_init(void);
+void	ft_sig_for_here_doc_parent(int sig);
+void	ft_sig_for_here_doc_child(int sig);
+void	ft_sig_for_child(int sig);
 void	ft_mini_envp_init(char **envp, t_info *info);
+int		ft_init_exec(t_info *info, t_parse *parse, t_exec *exec);
 
 /* 1_parse */
 int		ft_parse(t_info *info, t_parse *parse);
@@ -163,9 +168,9 @@ void	ft_exec_cmd(t_info *info, t_parse *parse,
 			t_exec *exec, t_exec_info *exec_info);
 void	ft_exec_builtin(t_info *info, t_parse *parse,
 			t_exec *exec, t_exec_info *exec_info);
-void	ft_redirect(t_exec_info *exec_info);
-void	ft_redirect_here_doc(t_exec_info *exec_info, t_redirect *redirect);
-void	ft_pipe(t_exec *exec, t_exec_info *exec_info);
+int		ft_check_here_doc(t_exec *exec);
+void	ft_set_redirect_fd(t_exec_info *exec_info);
+void	ft_set_pipe_fd(t_exec *exec, t_exec_info *exec_info);
 
 /* 4_builtin */
 int		ft_echo_builtin(void);
@@ -185,7 +190,6 @@ void	ft_list_clear(t_list *list);
 /* utils */
 int		ft_error(char *msg, int error_code);
 int		ft_perror(int error_code);
-void	ft_cmd_not_found_error(t_exec_info *exec_info);
 int		ft_is_space(char c);
 int		ft_is_operator(char c);
 int		ft_is_redirect(char c);

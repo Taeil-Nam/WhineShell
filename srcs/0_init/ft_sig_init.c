@@ -6,7 +6,7 @@
 /*   By: tnam <tnam@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/26 16:23:33 by tnam              #+#    #+#             */
-/*   Updated: 2023/04/27 20:24:33 by tnam             ###   ########.fr       */
+/*   Updated: 2023/05/24 20:04:50 by tnam             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,4 +31,27 @@ void	ft_sig_init(void)
 	tcsetattr(STDIN_FILENO, TCSANOW, &termios);
 	signal(SIGINT, ft_signal_2);
 	signal(SIGQUIT, SIG_IGN);
+}
+
+void	ft_sig_for_here_doc_parent(int sig)
+{
+	(void)sig;
+	printf("\n");
+}
+
+void	ft_sig_for_here_doc_child(int sig)
+{
+	(void)sig;
+	exit(1);
+}
+
+void	ft_sig_for_child(int sig)
+{
+	if (sig == SIGINT)
+		exit(128 + sig);
+	else if (sig == SIGQUIT)
+	{
+		printf("^\\Quit: 3\n");
+		exit(128 + sig);
+	}
 }

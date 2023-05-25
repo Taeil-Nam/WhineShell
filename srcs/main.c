@@ -6,7 +6,7 @@
 /*   By: tnam <tnam@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/18 17:30:14 by tnam              #+#    #+#             */
-/*   Updated: 2023/05/23 18:12:05 by tnam             ###   ########.fr       */
+/*   Updated: 2023/05/24 16:14:53 by tnam             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,11 @@ void	print_exec(t_exec *exec)
 	printf("=========\n\n");
 }
 
+void leaks() // memory leak test
+{
+	system("leaks -q $PPID");
+}
+
 static void	ft_parse_execute(t_info *info, t_parse *parse, t_exec *exec)
 {
 	if (ft_parse(info, parse) == FAILURE)
@@ -70,21 +75,17 @@ static void	ft_parse_execute(t_info *info, t_parse *parse, t_exec *exec)
 	ft_free_all(parse, exec);
 }
 
-void leaks() // memory leak test
-{
-	system("leaks -q $PPID");
-}
-
 int	main(int argc, char *argv[], char *envp[])
 {
 	t_info		info;
 	t_parse		parse;
 	t_exec		exec;
 
-	atexit(leaks); // memory leaks test
+	//atexit(leaks); // memory leaks test
 	ft_init(argc, argv, envp, &info);
 	while (TRUE)
 	{
+		ft_sig_init();
 		parse.line = readline("whine 🍷 ");
 		if (parse.line == NULL)
 		{

@@ -6,7 +6,7 @@
 /*   By: tnam <tnam@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/23 16:45:43 by jeekpark          #+#    #+#             */
-/*   Updated: 2023/05/23 18:50:25 by tnam             ###   ########.fr       */
+/*   Updated: 2023/05/24 19:55:32 by tnam             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,8 +54,8 @@ static void	ft_unset_builtin_del_node(t_info *info, t_exec_info *exec_info)
 int	ft_unset_builtin(t_info *info, t_exec_info *exec_info)
 {
 	if (exec_info->cmd[1] == NULL)
-		exit (EXIT_SUCCESS);
+		exit(EXIT_SUCCESS);
 	else
 		ft_unset_builtin_del_node(info, exec_info);
-	exit (EXIT_SUCCESS);
+	exit(EXIT_SUCCESS);
 }

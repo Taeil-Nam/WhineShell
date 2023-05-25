@@ -6,7 +6,7 @@
 /*   By: tnam <tnam@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/23 16:00:35 by jeekpark          #+#    #+#             */
-/*   Updated: 2023/05/23 18:49:26 by tnam             ###   ########.fr       */
+/*   Updated: 2023/05/24 19:55:32 by tnam             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,5 +42,5 @@ int	ft_export_builtin(t_info *info, t_exec_info *exec_info)
 		ft_export_builtin_no_arg(&(info->mini_envp));
 	else
 		ft_export_builtin_arg(info, exec_info);
-	exit (EXIT_SUCCESS);
+	exit(EXIT_SUCCESS);
 }

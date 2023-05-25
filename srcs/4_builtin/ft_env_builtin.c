@@ -6,7 +6,7 @@
 /*   By: tnam <tnam@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/23 15:19:03 by jeekpark          #+#    #+#             */
-/*   Updated: 2023/05/23 18:48:54 by tnam             ###   ########.fr       */
+/*   Updated: 2023/05/24 19:55:32 by tnam             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,5 +22,5 @@ int	ft_env_builtin(t_info *info)
 		printf("%s\n", (char *)(cur->content));
 		cur = cur->next_node;
 	}
-	exit (EXIT_SUCCESS);
+	exit(EXIT_SUCCESS);
 }

@@ -6,13 +6,13 @@
 /*   By: tnam <tnam@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/23 12:13:22 by tnam              #+#    #+#             */
-/*   Updated: 2023/05/23 13:12:05 by tnam             ###   ########.fr       */
+/*   Updated: 2023/05/24 14:20:35 by tnam             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	ft_pipe(t_exec *exec, t_exec_info *exec_info)
+void	ft_set_pipe_fd(t_exec *exec, t_exec_info *exec_info)
 {
 	if (exec->prev_pipe_fd != NONE)
 	{

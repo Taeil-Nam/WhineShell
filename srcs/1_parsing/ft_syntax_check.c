@@ -6,7 +6,7 @@
 /*   By: tnam <tnam@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/18 11:02:57 by tnam              #+#    #+#             */
-/*   Updated: 2023/05/18 11:38:32 by tnam             ###   ########.fr       */
+/*   Updated: 2023/05/24 14:45:59 by tnam             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,12 +15,18 @@
 static int	ft_check_pipe_syntax(t_parse *parse)
 {
 	if (parse->tokens_i == 0 || parse->tokens_i == parse->token_count - 1)
-		return (ft_error("Syntax Error: PIPE used first or last.", FAILURE));
+	{
+		g_child_exit_code = 258;
+		return (ft_error("Syntax Error: PIPE became first or last.", FAILURE));
+	}
 	else
 	{
 		if (parse->tokens[parse->tokens_i - 1].type == PIPE
 			|| parse->tokens[parse->tokens_i + 1].type == PIPE)
+		{
+			g_child_exit_code = 258;
 			return (ft_error("Syntax Error: No word between PIPE.", FAILURE));
+		}
 	}
 	return (SUCCESS);
 }
@@ -28,11 +34,17 @@ static int	ft_check_pipe_syntax(t_parse *parse)
 static int	ft_check_redirect_syntax(t_parse *parse)
 {
 	if (parse->tokens_i == parse->token_count - 1)
+	{
+		g_child_exit_code = 258;
 		return (ft_error("Syntax Error: No word after REDIRECT.", FAILURE));
+	}
 	else
 	{
 		if (parse->tokens[parse->tokens_i + 1].type != WORD)
+		{
+			g_child_exit_code = 258;
 			return (ft_error("Syntax Error: No word after REDIRECT.", FAILURE));
+		}
 	}
 	return (SUCCESS);
 }

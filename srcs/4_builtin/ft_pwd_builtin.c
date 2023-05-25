@@ -6,7 +6,7 @@
 /*   By: tnam <tnam@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/23 17:44:04 by jeekpark          #+#    #+#             */
-/*   Updated: 2023/05/23 18:51:15 by tnam             ###   ########.fr       */
+/*   Updated: 2023/05/24 19:55:32 by tnam             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,6 @@ int	ft_pwd_builtin(void)
 	if (getcwd(path, sizeof(path)))
 		printf("%s\n", path);
 	else
-		exit (EXIT_FAILURE);
-	exit (EXIT_SUCCESS);
+		exit(EXIT_FAILURE);
+	exit(EXIT_SUCCESS);
 }

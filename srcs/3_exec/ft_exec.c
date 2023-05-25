@@ -6,7 +6,7 @@
 /*   By: tnam <tnam@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/22 15:21:28 by tnam              #+#    #+#             */
-/*   Updated: 2023/05/23 17:06:02 by tnam             ###   ########.fr       */
+/*   Updated: 2023/05/24 21:52:27 by tnam             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 
 static int	ft_parent(t_exec *exec, t_exec_info *exec_info)
 {
+	signal(SIGINT, SIG_IGN);
 	if (exec->prev_pipe_fd != NONE)
 	{
 		if (close(exec->prev_pipe_fd) == FAILURE)
@@ -54,16 +55,25 @@ static int	ft_make_child(t_info *info, t_parse *parse,
 
 static int	ft_wait_child(t_exec *exec)
 {
-	int	child_status;
+	int		child_status;
+	pid_t	last_child_pid;
 
+	last_child_pid = exec->exec_arr[exec->exec_arr_size - 1].pid;
 	exec->exec_arr_i = 0;
 	while (exec->exec_arr_i < exec->exec_arr_size)
 	{
-		if (waitpid(-1, &child_status, 0) == FAILURE)
+		exec->current_child_pid = waitpid(-1, &child_status, 0);
+		if (exec->current_child_pid == FAILURE)
 			return (ft_perror(FAILURE));
+		if (exec->current_child_pid == last_child_pid)
+		{
+			if (WIFSIGNALED(child_status) == TRUE)
+				g_child_exit_code = 128 + WTERMSIG(child_status);
+			else
+				g_child_exit_code = WEXITSTATUS(child_status);
+		}
 		exec->exec_arr_i++;
 	}
-	g_child_exit_code = WEXITSTATUS(child_status);
 	unlink("/tmp/whine");
 	return (SUCCESS);
 }
@@ -72,6 +82,12 @@ int	ft_exec(t_info *info, t_parse *parse, t_exec *exec)
 {
 	t_exec_info	*exec_info;
 
+	if (ft_check_here_doc(exec) == FAILURE)
+	{
+		ft_free_all(parse, exec);
+		return (FAILURE);
+	}
+	exec->exec_arr_i = 0;
 	while (exec->exec_arr_i < exec->exec_arr_size)
 	{
 		exec_info = &exec->exec_arr[exec->exec_arr_i];

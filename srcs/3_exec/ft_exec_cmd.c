@@ -6,7 +6,7 @@
 /*   By: tnam <tnam@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/22 20:18:43 by tnam              #+#    #+#             */
-/*   Updated: 2023/05/23 18:54:16 by tnam             ###   ########.fr       */
+/*   Updated: 2023/05/24 21:54:13 by tnam             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,8 @@ static int	ft_find_cmd(t_exec *exec, t_exec_info *exec_info)
 	if (exec_info->cmd_path == NULL
 		|| access(exec_info->cmd_path, X_OK) == SUCCESS)
 		return (SUCCESS);
+	if (exec_info->cmd_path[0] == '\0')
+		return (FAILURE);
 	i = 0;
 	while (exec->path_envp[i])
 	{
@@ -53,25 +55,71 @@ static int	ft_find_cmd(t_exec *exec, t_exec_info *exec_info)
 	return (FAILURE);
 }
 
+static void	ft_set_fd(t_exec *exec, t_exec_info *exec_info)
+{
+	ft_set_pipe_fd(exec, exec_info);
+	ft_set_redirect_fd(exec_info);
+	if (exec_info->infile_fd != NONE)
+	{
+		if (dup2(exec_info->infile_fd, STDIN_FILENO) == FAILURE)
+			exit(ft_perror(errno));
+		if (close(exec_info->infile_fd) == FAILURE)
+			exit(ft_perror(errno));
+	}
+	if (exec_info->outfile_fd != NONE)
+	{
+		if (dup2(exec_info->outfile_fd, STDOUT_FILENO) == FAILURE)
+			exit(ft_perror(errno));
+		if (close(exec_info->outfile_fd) == FAILURE)
+			exit(ft_perror(errno));
+	}
+}
+
+static char	**ft_make_envp(t_list *mini_envp)
+{
+	char	**envp;
+	size_t	count;
+	t_node	*node;
+
+	count = 0;
+	node = mini_envp->front_node;
+	while (node->next_node != NULL)
+	{
+		count++;
+		node = node->next_node;
+	}
+	envp = (char **)ft_calloc(count + 1, sizeof(char *));
+	count = 0;
+	node = mini_envp->front_node;
+	while (node->next_node != NULL)
+	{
+		envp[count] = (char *)node->content;
+		node = node->next_node;
+	}
+	return (envp);
+}
+
 void	ft_exec_cmd(t_info *info, t_parse *parse,
 	t_exec *exec, t_exec_info *exec_info)
 {
+	signal(SIGINT, SIG_DFL);
+	signal(SIGQUIT, SIG_DFL);
 	if (ft_is_builtin(exec_info) == FALSE
 		&& ft_find_cmd(exec, exec_info) == FAILURE)
 	{
-		printf("%s: command not found:\n", exec_info->cmd[0]);
+		printf("%s: command not found\n", exec_info->cmd[0]);
 		ft_free_all(parse, exec);
 		exit(127);
 	}
 	else
 	{
-		ft_pipe(exec, exec_info);
-		ft_redirect(exec_info);
+		ft_set_fd(exec, exec_info);
 		if (exec_info->cmd_path == NULL)
-			exit (EXIT_SUCCESS);
+			exit(EXIT_SUCCESS);
 		if (ft_is_builtin(exec_info) == TRUE)
 			ft_exec_builtin(info, parse, exec, exec_info);
 		else
-			execve(exec_info->cmd_path, exec_info->cmd, info->envp);
+			execve(exec_info->cmd_path, exec_info->cmd,
+				ft_make_envp(&info->mini_envp));
 	}
 }
