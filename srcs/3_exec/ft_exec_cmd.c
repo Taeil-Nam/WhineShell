@@ -6,7 +6,7 @@
 /*   By: tnam <tnam@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/22 20:18:43 by tnam              #+#    #+#             */
-/*   Updated: 2023/05/25 13:36:45 by tnam             ###   ########.fr       */
+/*   Updated: 2023/05/25 16:29:42 by tnam             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,7 +107,7 @@ void	ft_exec_cmd(t_info *info, t_parse *parse,
 	if (ft_is_builtin_child(exec_info) == FALSE
 		&& ft_find_cmd(exec, exec_info) == FAILURE)
 	{
-		printf("%s: command not found\n", exec_info->cmd[0]);
+		ft_printf_err("%s: command not found\n", exec_info->cmd[0]);
 		ft_free_all(parse, exec);
 		exit(127);
 	}
