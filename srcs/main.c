@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tnam <tnam@student.42seoul.kr>             +#+  +:+       +#+        */
+/*   By: jeekpark <jeekpark@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/18 17:30:14 by tnam              #+#    #+#             */
-/*   Updated: 2023/05/25 17:36:04 by tnam             ###   ########.fr       */
+/*   Updated: 2023/05/25 18:28:25 by jeekpark         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,7 @@ int	main(int argc, char *argv[], char *envp[])
 	while (TRUE)
 	{
 		ft_sig_init();
-		parse.line = readline("whine 🍷 ");
+		parse.line = readline("\033[0;35mwhine 🍷 ");
 		if (parse.line == NULL)
 		{
 			ft_list_clear(&info.mini_envp);
