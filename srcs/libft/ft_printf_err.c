@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_printf.c                                        :+:      :+:    :+:   */
+/*   ft_printf_err.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jeekpark <jeekpark@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/25 11:01:06 by jeekpark          #+#    #+#             */
-/*   Updated: 2022/12/21 21:42:14 by jeekpark         ###   ########.fr       */
+/*   Updated: 2023/05/25 15:24:04 by jeekpark         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ static int	ft_print(va_list arg, const char *format, int res)
 	return (res);
 }
 
-int	ft_printf(const char *format, ...)
+int	ft_printf_err(const char *format, ...)
 {
 	va_list	arg;
 	int		res;

@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_print_di.c                                      :+:      :+:    :+:   */
+/*   ft_print_di_err.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jeekpark <jeekpark@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/29 02:29:48 by jeekpark          #+#    #+#             */
-/*   Updated: 2022/12/21 21:42:22 by jeekpark         ###   ########.fr       */
+/*   Updated: 2023/05/25 15:25:10 by jeekpark         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,5 +43,5 @@ static void	ft_putnbr_fd_alt(int n, int fd, int *res)
 
 void	ft_print_di(int nb, int *res)
 {
-	ft_putnbr_fd_alt(nb, 1, res);
+	ft_putnbr_fd_alt(nb, 2, res);
 }

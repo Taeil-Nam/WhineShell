@@ -1,37 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_print_u.c                                       :+:      :+:    :+:   */
+/*   ft_print_s_err.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jeekpark <jeekpark@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/11/29 23:52:41 by jeekpark          #+#    #+#             */
-/*   Updated: 2022/12/21 21:42:20 by jeekpark         ###   ########.fr       */
+/*   Created: 2022/11/29 02:35:32 by jeekpark          #+#    #+#             */
+/*   Updated: 2023/05/25 15:24:40 by jeekpark         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-static void	ft_run_alt(unsigned int n, int fd, int *res)
+void	ft_print_s(char *str, int *res)
 {
-	if (n > 9)
-		ft_run_alt(n / 10, fd, res);
-	ft_putchar_fd((n % 10) + '0', fd);
-	(*res)++;
-}
+	size_t	len;
 
-static void	ft_putnbr_fd_alt(unsigned int n, int fd, int *res)
-{
-	if (n == 0)
+	if (str == NULL)
 	{
-		ft_putchar_fd('0', fd);
-		(*res)++;
+		write(2, "(null)", 6);
+		(*res) = (*res) + 6;
 		return ;
 	}
-	ft_run_alt(n, fd, res);
-}
-
-void	ft_print_u(unsigned int nb, int *res)
-{
-	ft_putnbr_fd_alt(nb, 1, res);
+	len = ft_strlen(str);
+	write(2, str, len);
+	(*res) = (*res) + len;
 }

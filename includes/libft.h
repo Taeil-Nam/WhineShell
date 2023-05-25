@@ -6,7 +6,7 @@
 /*   By: jeekpark <jeekpark@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/07 10:07:17 by jeekpark          #+#    #+#             */
-/*   Updated: 2023/04/18 21:38:09 by jeekpark         ###   ########.fr       */
+/*   Updated: 2023/05/25 15:24:02 by jeekpark         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ void	ft_print_s(char *str, int *res);
 void	ft_print_x(unsigned int nbr, char x, int *res);
 void	ft_print_p(void *addr, int *res);
 void	ft_print_u(unsigned int nb, int *res);
-int		ft_printf(const char *format, ...);
+int		ft_printf_err(const char *format, ...);
 
 size_t	ft_gnl_strlen(const char *s);
 char	*ft_gnl_strchr(char *s, int c);

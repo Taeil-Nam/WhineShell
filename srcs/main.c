@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tnam <tnam@student.42seoul.kr>             +#+  +:+       +#+        */
+/*   By: jeekpark <jeekpark@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/18 17:30:14 by tnam              #+#    #+#             */
-/*   Updated: 2023/05/25 13:37:28 by tnam             ###   ########.fr       */
+/*   Updated: 2023/05/25 15:04:01 by jeekpark         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,7 @@ int	main(int argc, char *argv[], char *envp[])
 	t_parse		parse;
 	t_exec		exec;
 
-	//atexit(leaks); // memory leaks test
+	atexit(leaks); // memory leaks test
 	ft_init(argc, argv, envp, &info);
 	while (TRUE)
 	{
