@@ -6,7 +6,7 @@
 /*   By: tnam <tnam@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/22 15:21:28 by tnam              #+#    #+#             */
-/*   Updated: 2023/05/24 21:52:27 by tnam             ###   ########.fr       */
+/*   Updated: 2023/05/25 13:37:11 by tnam             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,19 +78,28 @@ static int	ft_wait_child(t_exec *exec)
 	return (SUCCESS);
 }
 
-int	ft_exec(t_info *info, t_parse *parse, t_exec *exec)
+static int	ft_here_doc(t_parse *parse, t_exec *exec)
 {
-	t_exec_info	*exec_info;
-
 	if (ft_check_here_doc(exec) == FAILURE)
 	{
 		ft_free_all(parse, exec);
 		return (FAILURE);
 	}
+	return (SUCCESS);
+}
+
+int	ft_exec(t_info *info, t_parse *parse, t_exec *exec)
+{
+	t_exec_info	*exec_info;
+
+	if (ft_here_doc(parse, exec) == FAILURE)
+		return (FAILURE);
 	exec->exec_arr_i = 0;
 	while (exec->exec_arr_i < exec->exec_arr_size)
 	{
 		exec_info = &exec->exec_arr[exec->exec_arr_i];
+		if (ft_is_builtin_parent(exec_info) == TRUE)
+			return (ft_exec_builtin_parent(info, parse, exec, exec_info));
 		if (exec_info->use_pipe == TRUE)
 		{
 			if (pipe(exec_info->pipe_fd) == FAILURE)
