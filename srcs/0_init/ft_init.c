@@ -6,7 +6,7 @@
 /*   By: tnam <tnam@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/26 15:18:06 by tnam              #+#    #+#             */
-/*   Updated: 2023/05/24 16:14:49 by tnam             ###   ########.fr       */
+/*   Updated: 2023/05/25 20:13:10 by tnam             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,5 +20,6 @@ void	ft_init(int argc, char **argv, char **envp, t_info *info)
 	info->argc = argc;
 	info->argv = argv;
 	info->envp = envp;
+	tcgetattr(STDIN_FILENO, &info->termios_backup);
 	ft_mini_envp_init(envp, info);
 }

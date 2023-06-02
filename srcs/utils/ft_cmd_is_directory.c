@@ -1,24 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_is_builtin_child.c                              :+:      :+:    :+:   */
+/*   ft_cmd_path_check.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tnam <tnam@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/05/23 18:26:37 by tnam              #+#    #+#             */
-/*   Updated: 2023/05/25 13:20:32 by tnam             ###   ########.fr       */
+/*   Created: 2023/05/29 15:35:23 by tnam              #+#    #+#             */
+/*   Updated: 2023/05/29 17:56:45 by tnam             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	ft_is_builtin_child(t_exec_info *exec_info)
+void	ft_cmd_is_directory(char *cmd_path)
 {
-	if (exec_info->cmd_path == NULL)
-		return (FALSE);
-	if (ft_strncmp(exec_info->cmd[0], "echo", ft_strlen("echo") + 1) == 0
-		|| ft_strncmp(exec_info->cmd[0], "pwd", ft_strlen("pwd") + 1) == 0
-		|| ft_strncmp(exec_info->cmd[0], "env", ft_strlen("env") + 1) == 0)
-		return (TRUE);
-	return (FALSE);
+	DIR	*dir;
+
+	dir = opendir(cmd_path);
+	if (dir != NULL)
+	{
+		ft_printf_err("%s: is a directory\n", cmd_path);
+		exit(126);
+	}
 }

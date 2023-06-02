@@ -6,7 +6,7 @@
 /*   By: tnam <tnam@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/22 15:21:28 by tnam              #+#    #+#             */
-/*   Updated: 2023/05/25 13:37:11 by tnam             ###   ########.fr       */
+/*   Updated: 2023/06/02 09:16:51 by tnam             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,8 @@
 
 static int	ft_parent(t_exec *exec, t_exec_info *exec_info)
 {
-	signal(SIGINT, SIG_IGN);
+	signal(SIGINT, ft_sig_for_parent);
+	signal(SIGQUIT, ft_sig_for_parent);
 	if (exec->prev_pipe_fd != NONE)
 	{
 		if (close(exec->prev_pipe_fd) == FAILURE)
@@ -98,7 +99,7 @@ int	ft_exec(t_info *info, t_parse *parse, t_exec *exec)
 	while (exec->exec_arr_i < exec->exec_arr_size)
 	{
 		exec_info = &exec->exec_arr[exec->exec_arr_i];
-		if (ft_is_builtin_parent(exec_info) == TRUE)
+		if (ft_is_builtin_parent(exec, exec_info) == TRUE)
 			return (ft_exec_builtin_parent(info, parse, exec, exec_info));
 		if (exec_info->use_pipe == TRUE)
 		{

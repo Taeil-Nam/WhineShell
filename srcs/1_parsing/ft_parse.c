@@ -6,7 +6,7 @@
 /*   By: tnam <tnam@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/26 15:25:50 by tnam              #+#    #+#             */
-/*   Updated: 2023/05/18 11:43:13 by tnam             ###   ########.fr       */
+/*   Updated: 2023/05/29 18:23:49 by tnam             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ static int	ft_ready_tokenization(t_parse *parse)
 	parse->line_i = 0;
 	parse->tokens = (t_token *)ft_calloc(parse->token_count, sizeof(t_token));
 	if (parse->tokens == NULL)
-		return (ft_error("Failed calloc tokens.", FAILURE));
+		return (ft_error("Failed calloc tokens", FAILURE));
 	return (SUCCESS);
 }
 

@@ -6,7 +6,7 @@
 /*   By: tnam <tnam@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/28 14:45:53 by tnam              #+#    #+#             */
-/*   Updated: 2023/05/23 18:07:25 by tnam             ###   ########.fr       */
+/*   Updated: 2023/05/26 13:47:22 by tnam             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,18 +86,14 @@ static int	ft_add_env(t_parse *parse)
 static int	ft_find_env(t_info *info, t_parse *parse)
 {
 	ft_set_quote_flag(parse);
-	if (parse->squote_flag == FALSE
-		&& parse->token->str[parse->str_i] == '$'
+	if (parse->squote_flag == FALSE && parse->token->str[parse->str_i] == '$'
 		&& (ft_isalpha(parse->token->str[parse->str_i + 1])
 			|| parse->token->str[parse->str_i + 1] == '_'
 			|| parse->token->str[parse->str_i + 1] == '-'
 			|| parse->token->str[parse->str_i + 1] == '?'))
 	{
 		if (ft_is_child_exit_code(parse) == TRUE)
-		{
-			if (ft_convert_child_exit_code(parse) == FAILURE)
-				return (FAILURE);
-		}
+			return (ft_convert_child_exit_code(parse));
 		else if (ft_check_env(info, parse) == TRUE)
 		{
 			if (ft_add_env(parse) == FAILURE)
@@ -105,9 +101,12 @@ static int	ft_find_env(t_info *info, t_parse *parse)
 			parse->str_i = parse->start_i + parse->env_val_len - 1;
 		}
 		else
+		{
 			ft_strlcpy(&parse->token->str[parse->start_i],
 				&parse->token->str[parse->str_i + 1],
-				ft_strlen(parse->token->str));
+				ft_strlen(parse->token->str) + 1);
+			parse->str_i -= parse->temp_str_len + 1;
+		}
 	}
 	return (SUCCESS);
 }

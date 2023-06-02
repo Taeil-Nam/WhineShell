@@ -6,7 +6,7 @@
 /*   By: tnam <tnam@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/23 11:26:44 by tnam              #+#    #+#             */
-/*   Updated: 2023/05/24 19:55:32 by tnam             ###   ########.fr       */
+/*   Updated: 2023/05/29 18:22:53 by tnam             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,10 @@ static void	ft_redirect_in1(t_exec_info *exec_info, t_redirect *redirect)
 			exit(ft_perror(errno));
 	exec_info->infile_fd = open(redirect->value, O_RDONLY);
 	if (exec_info->infile_fd == FAILURE)
-		exit(ft_perror(1));
+	{
+		ft_printf_err("%s: No such file or directory\n", redirect->value);
+		exit(1);
+	}
 }
 
 static void	ft_redirect_here_doc(t_exec_info *exec_info)
