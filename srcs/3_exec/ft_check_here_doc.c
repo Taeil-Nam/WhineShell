@@ -6,7 +6,7 @@
 /*   By: tnam <tnam@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/24 13:58:51 by tnam              #+#    #+#             */
-/*   Updated: 2023/05/24 19:55:32 by tnam             ###   ########.fr       */
+/*   Updated: 2023/05/29 18:24:09 by tnam             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ static void	ft_get_here_doc(t_redirect *redirect)
 		exit(ft_perror(errno));
 	limiter = ft_strjoin(redirect->value, "\n");
 	if (limiter == NULL)
-		exit(ft_error("limiter malloc failed.", FAILURE));
+		exit(ft_error("limiter malloc failed", FAILURE));
 	while (TRUE)
 	{
 		write(1, "> ", 2);

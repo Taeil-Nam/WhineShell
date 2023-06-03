@@ -6,7 +6,7 @@
 /*   By: tnam <tnam@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/26 16:23:33 by tnam              #+#    #+#             */
-/*   Updated: 2023/05/24 20:04:50 by tnam             ###   ########.fr       */
+/*   Updated: 2023/05/29 15:26:06 by tnam             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 void	ft_signal_2(int sig)
 {
 	(void)sig;
+	g_child_exit_code = 1;
 	printf("\n");
 	if (rl_on_new_line() == -1)
 		exit(1);
@@ -22,13 +23,11 @@ void	ft_signal_2(int sig)
 	rl_redisplay();
 }
 
-void	ft_sig_init(void)
+void	ft_sig_init(t_info *info)
 {
-	struct termios	termios;
-
-	tcgetattr(STDIN_FILENO, &termios);
-	termios.c_lflag = ~ECHOCTL;
-	tcsetattr(STDIN_FILENO, TCSANOW, &termios);
+	info->termios = info->termios_backup;
+	info->termios.c_lflag = ~ECHOCTL;
+	tcsetattr(STDIN_FILENO, TCSANOW, &info->termios);
 	signal(SIGINT, ft_signal_2);
 	signal(SIGQUIT, SIG_IGN);
 }
@@ -45,13 +44,14 @@ void	ft_sig_for_here_doc_child(int sig)
 	exit(1);
 }
 
-void	ft_sig_for_child(int sig)
+void	ft_sig_for_parent(int sig)
 {
 	if (sig == SIGINT)
-		exit(128 + sig);
-	else if (sig == SIGQUIT)
 	{
-		printf("^\\Quit: 3\n");
-		exit(128 + sig);
+		printf("^C\n");
+	}
+	if (sig == SIGQUIT)
+	{
+		printf("^\\Quit: %d\n", sig);
 	}
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jeekpark <jeekpark@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tnam <tnam@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/18 17:30:14 by tnam              #+#    #+#             */
-/*   Updated: 2023/05/25 18:28:25 by jeekpark         ###   ########.fr       */
+/*   Updated: 2023/06/02 09:04:35 by tnam             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,7 @@ int	main(int argc, char *argv[], char *envp[])
 	ft_init(argc, argv, envp, &info);
 	while (TRUE)
 	{
-		ft_sig_init();
+		ft_sig_init(&info);
 		parse.line = readline("\033[0;35mwhine 🍷 ");
 		if (parse.line == NULL)
 		{

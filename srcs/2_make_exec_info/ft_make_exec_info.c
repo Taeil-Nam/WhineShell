@@ -6,7 +6,7 @@
 /*   By: tnam <tnam@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/18 14:24:48 by tnam              #+#    #+#             */
-/*   Updated: 2023/05/24 22:04:39 by tnam             ###   ########.fr       */
+/*   Updated: 2023/06/02 09:12:23 by tnam             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,7 @@ static void	ft_init_exec_info(t_exec_info *exec_info)
 	exec_info->use_pipe = FALSE;
 	exec_info->infile_fd = NONE;
 	exec_info->outfile_fd = NONE;
+	exec_info->builtin_parent = FALSE;
 }
 
 static int	ft_add_exec_info(t_parse *parse, t_exec *exec)

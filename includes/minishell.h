@@ -6,7 +6,7 @@
 /*   By: tnam <tnam@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/18 17:30:42 by tnam              #+#    #+#             */
-/*   Updated: 2023/05/25 17:19:47 by tnam             ###   ########.fr       */
+/*   Updated: 2023/06/02 10:25:37 by tnam             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,6 +77,8 @@ typedef struct s_info
 	char			**argv;
 	char			**envp;
 	t_list			mini_envp;
+	struct termios	termios_backup;
+	struct termios	termios;
 }	t_info;
 
 typedef struct s_parse
@@ -127,6 +129,7 @@ typedef struct s_exec_info
 	int				pipe_fd[2];
 	int				infile_fd;
 	int				outfile_fd;
+	int				builtin_parent;
 }	t_exec_info;
 
 typedef struct s_exec
@@ -141,10 +144,10 @@ typedef struct s_exec
 
 /* 0_init */
 void	ft_init(int argc, char **argv, char **envp, t_info *info);
-void	ft_sig_init(void);
+void	ft_sig_init(t_info *info);
 void	ft_sig_for_here_doc_parent(int sig);
 void	ft_sig_for_here_doc_child(int sig);
-void	ft_sig_for_child(int sig);
+void	ft_sig_for_parent(int sig);
 void	ft_mini_envp_init(char **envp, t_info *info);
 int		ft_init_exec(t_info *info, t_parse *parse, t_exec *exec);
 
@@ -166,18 +169,20 @@ int		ft_set_exec_info(t_parse *parse, t_exec_info *exec_info);
 int		ft_exec(t_info *info, t_parse *parse, t_exec *exec);
 void	ft_exec_cmd(t_info *info, t_parse *parse,
 			t_exec *exec, t_exec_info *exec_info);
+int		ft_exec_builtin(t_info *info, t_parse *parse,
+			t_exec *exec, t_exec_info *exec_info);
 int		ft_exec_builtin_parent(t_info *info, t_parse *parse,
 			t_exec *exec, t_exec_info *exec_info);
-void	ft_exec_builtin_child(t_info *info, t_exec_info *exec_info);
 int		ft_check_here_doc(t_exec *exec);
 void	ft_set_redirect_fd(t_exec_info *exec_info);
 void	ft_set_pipe_fd(t_exec *exec, t_exec_info *exec_info);
 
 /* 4_builtin */
 int		ft_echo_builtin(t_exec_info *exec_info);
-int		ft_cd_builtin(void);
+int		ft_cd_builtin(t_exec_info *exec_info);
 int		ft_env_builtin(t_info *info);
-int		ft_exit_builtin(t_list *mini_envp, t_parse *parse, t_exec *exec);
+int		ft_exit_builtin(t_list *mini_envp, t_parse *parse, t_exec *exec,
+			t_exec_info *exec_info);
 int		ft_export_builtin(t_info *info, t_exec_info *exec_info);
 int		ft_pwd_builtin(void);
 int		ft_unset_builtin(t_info *info, t_exec_info *exec_info);
@@ -191,6 +196,7 @@ void	ft_list_clear(t_list *list);
 /* utils */
 int		ft_error(char *msg, int error_code);
 int		ft_perror(int error_code);
+void	ft_cmd_is_directory(char *cmd_path);
 int		ft_is_space(char c);
 int		ft_is_operator(char c);
 int		ft_is_redirect(char c);
@@ -198,8 +204,8 @@ int		ft_is_quote(char c);
 int		ft_is_env(t_info *info, t_parse *parse);
 int		ft_is_heredoc(char c1, char c2);
 int		ft_is_child_exit_code(t_parse *parse);
-int		ft_is_builtin_parent(t_exec_info *exec_info);
-int		ft_is_builtin_child(t_exec_info *exec_info);
+int		ft_is_builtin(t_exec_info *exec_info);
+int		ft_is_builtin_parent(t_exec *exec, t_exec_info *exec_info);
 void	ft_free_tokens(t_parse *parse, size_t token_size);
 void	ft_free_exec(t_exec *exec, size_t exec_info_size);
 void	ft_free_all(t_parse *parse, t_exec *exec);

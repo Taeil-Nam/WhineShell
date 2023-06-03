@@ -6,14 +6,34 @@
 /*   By: tnam <tnam@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/23 18:39:21 by tnam              #+#    #+#             */
-/*   Updated: 2023/05/24 19:55:32 by tnam             ###   ########.fr       */
+/*   Updated: 2023/06/02 09:40:02 by tnam             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	ft_cd_builtin(void)
+int	ft_cd_builtin(t_exec_info *exec_info)
 {
-	printf("cd builtin\n");
-	exit(EXIT_SUCCESS);
+	char	*path;
+
+	path = exec_info->cmd[1];
+	if (path == NULL)
+	{
+		if (exec_info->builtin_parent == TRUE)
+			return (SUCCESS);
+		else
+			exit(SUCCESS);
+	}
+	if (chdir(path) == FAILURE)
+	{
+		g_child_exit_code = 1;
+		if (exec_info->builtin_parent == TRUE)
+			return (SUCCESS);
+		else
+			exit(SUCCESS);
+	}
+	if (exec_info->builtin_parent == TRUE)
+		return (SUCCESS);
+	else
+		exit(SUCCESS);
 }
