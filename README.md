@@ -11,6 +11,7 @@
 - 프로세스 계층 구조.
 - Redirection
 - Pipe(IPC)
+- SIGNAL
 - File Descriptor
 
 ## 개발 및 테스트 환경
