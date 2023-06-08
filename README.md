@@ -3,7 +3,7 @@
 - 나만의 쉘을 만들어보자.
 
 ## 관련 개념
-- Lexical Analize.
+- Lexical Analisys.
 - Tokenization.
 - bash 쉘 동작 과정.
 - System Call
