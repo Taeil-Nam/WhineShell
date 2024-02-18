@@ -10,7 +10,7 @@
 #                                                                              #
 # **************************************************************************** #
 
-NAME			=	minishell
+NAME			=	whineshell
 
 CC				=	cc
 CFLAGS			=	-Wall -Wextra -Werror
