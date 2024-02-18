@@ -1,24 +1,64 @@
-# 42Seoul-minishell
-## 목표
-- 나만의 쉘을 만들어보자.
+# WhineShell
+This project(WhineShell) is created by [Taeil-Nam](https://github.com/Taeil-Nam), [Jeekun-Park](https://github.com/jeekpark)
 
-## 관련 개념
-- Lexical Analisys.
-- Tokenization.
-- bash 쉘 동작 과정.
+<!-- LIMITATION -->
+## Limitation
+- Only can use special characters as following:
+  - Redirection("<", "<<", ">", ">>")
+  - Pipe("|")
+  - Environment variable("$")
+
+<!-- GETTING STARTED -->
+## Getting Started
+
+### Prerequisites
+- Intel CPU Mac
+- MacOS Version = 12.6.2
+- Clang Version = 12.0.0
+
+### Installation
+1. Git clone
+   ```sh
+   $> git clone https://github.com/Taeil-Nam/WhineShell.git
+   ```
+2. Use "make" command to create whineshell
+   ```sh
+   $> make
+   ```
+
+<!-- USAGE -->
+## Usage
+You can use whineshell like bash.
+1. Execute wineshell
+   ```sh
+   $> ./whineshell
+   ```
+2. Enter the command
+   ```sh
+   whine> pwd
+   ```
+
+_please refer to the [Demo video](https://www.youtube.com/watch?v=DaiAOOJ5oR4)_
+
+<!-- FEATURES -->
+## Features
+- Lexical Analisys
+- Tokenization
 - System Call
-- 멀티 프로세스
-- 프로세스 계층 구조.
+- Multi Process
+- Process Hierarchy
 - Redirection
 - Pipe(IPC)
-- SIGNAL
+- Signal
 - File Descriptor
+- Environment Variables
 
-## 개발 및 테스트 환경
-- Intel CPU 기반 Mac.
-- MacOS Version = 12.6.2
+<!-- LICENSE -->
+## License
+Distributed under the MIT License. See `LICENSE.txt` for more information.
 
-## 사용 방법
-- make = 쉘 실행 파일 생성.
-- 실행 방법
-  - ./minishell
+<!-- CONTACT -->
+## Contact
+Taeil-Nam - nam0314@gmail.com
+
+Project Link: [https://github.com/Taeil-Nam/WhineShell](https://github.com/Taeil-Nam/WhineShell)
