@@ -21,7 +21,11 @@ This project(WhineShell) is created by [Taeil-Nam](https://github.com/Taeil-Nam)
    ```sh
    $> git clone https://github.com/Taeil-Nam/WhineShell.git
    ```
-2. Use "make" command to create whineshell
+2. Move to project directory
+   ```sh
+   $> cd WhineShell/
+   ```
+3. Use "make" command to create whineshell
    ```sh
    $> make
    ```
